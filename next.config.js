@@ -12,12 +12,8 @@ const withPWA = require("next-pwa")({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withPWA({
-  // i18n: {
-  //   locales: ["en", "ja"],
-  //   defaultLocale: "en",
-  // },
   images: {
-    domains: ["https://www.google.com/maps/"],
+    domains: [],
   },
   reactStrictMode: true,
 });
