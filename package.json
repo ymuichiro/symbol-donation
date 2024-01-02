@@ -25,6 +25,7 @@
     "react-dom": "^18",
     "react-intersection-observer": "^9.5.3",
     "swr": "^2.2.4",
+    "symbol-sdk": "^2.0.4",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7"
   },
