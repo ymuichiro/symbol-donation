@@ -1,6 +1,7 @@
 export const address = "NAU7KANQ25G6KUFQUHQSRIFOGPEIK77FC3W7KXI";
 export const currencyId: string = "6BED913FA20223F8";
 export const node: string = "https://symbolnode.blockchain-authn.app:3001";
+export const epochAdjustment: number = 1615853185;
 
 export function unresolvedAddressToEncodedAddress(unresolvedAddress: string): string {
   // hex to bytes
