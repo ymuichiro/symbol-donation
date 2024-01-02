@@ -7,7 +7,6 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 export const metadata: Metadata = {
   title: "義援金募集",
   description: "石川県能登半島地震への義援金受付状況を開示します",
-  metadataBase: new URL("https://community-xymposium.nemtus.com/"),
   twitter: {
     card: "summary_large_image",
     title: "義援金募集",
