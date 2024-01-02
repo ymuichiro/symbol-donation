@@ -4,16 +4,16 @@ import { Link } from "@/components/ui/link";
 import { address, epochAdjustment, node } from "@/lib/symbol";
 import { useEffect } from "react";
 import useSWRInfinite from "swr/infinite";
-import {
-  RepositoryFactoryHttp,
-  TransactionGroup,
-  Order,
-  TransactionSearchCriteria,
-  Address,
-  Deadline,
-  TransferTransaction,
-} from "symbol-sdk";
 import { useInView } from "react-intersection-observer";
+import { Address } from "symbol-sdk/dist/src/model/account/Address";
+import { RepositoryFactoryHttp } from "symbol-sdk/dist/src/infrastructure/RepositoryFactoryHttp";
+import { TransactionSearchCriteria } from "symbol-sdk/dist/src/infrastructure/searchCriteria/TransactionSearchCriteria";
+import { TransactionGroup } from "symbol-sdk/dist/src/infrastructure/TransactionGroup";
+import { Order } from "symbol-sdk/dist/src/infrastructure/searchCriteria/Order";
+import { TransferTransaction } from "symbol-sdk/dist/src/model/transaction/TransferTransaction";
+import { Deadline } from "symbol-sdk/dist/src/model/transaction/Deadline";
+import Loading from "@/components/ui/loading";
+import { Paragraph } from "@/components/ui/typography";
 
 const transactionRepository = new RepositoryFactoryHttp(node).createTransactionRepository();
 const recipientAddress = Address.createFromRawAddress(address);
@@ -23,8 +23,8 @@ const getKey = (pageIndex: number, previousPageData: any): TransactionSearchCrit
   return {
     group: TransactionGroup.Confirmed,
     address: recipientAddress,
-    pageSize: 20,
-    pageNumber: pageIndex,
+    pageSize: 30,
+    pageNumber: pageIndex + 1,
     order: Order.Desc,
   };
 };
@@ -36,12 +36,15 @@ const fetcher = async (searchCriteria: TransactionSearchCriteria): Promise<Trans
 };
 
 export default function MessageCard(): JSX.Element {
-  const { data, error, isLoading, setSize, size } = useSWRInfinite(getKey, fetcher);
-  const { ref, inView } = useInView({ threshold: 0.4, triggerOnce: true });
+  const { data, error, isLoading, setSize, isValidating } = useSWRInfinite(getKey, fetcher);
+  const { ref, inView } = useInView({ triggerOnce: false });
 
   useEffect(() => {
-    setSize((e) => e + 1);
-  }, [inView, setSize]);
+    if (inView && !isValidating) {
+      setSize((e) => e + 1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView]);
 
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div />;
@@ -57,7 +60,6 @@ export default function MessageCard(): JSX.Element {
         ?.flatMap((e) => e)
         .filter((e) => e.type === 16724)
         .map((tx, index) => {
-          console.log(tx.message.type, tx.message.payload);
           return (
             tx.message.payload && (
               <Card key={index}>
@@ -77,8 +79,19 @@ export default function MessageCard(): JSX.Element {
             )
           );
         })}
-      <div className="my-10 text-muted-foreground text-center">{data?.flatMap((e) => e)?.length || 0} 件読込完了</div>
+
       <div ref={ref} />
+      {!isValidating && (
+        <div className="flex flex-col items-center gap-5">
+          <Loading />
+          <Paragraph className="text-center text-muted-foreground">
+            続きを読み込み中...
+            <br />
+            ノードからの照会に時間がかかる場合があります
+          </Paragraph>
+        </div>
+      )}
+      <div className="my-10 text-muted-foreground text-center">{data?.flatMap((e) => e)?.length || 0} 件読込完了</div>
     </div>
   );
 }

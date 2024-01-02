@@ -5,7 +5,7 @@ import { Link } from "@/components/ui/link";
 import { H1, H2, Paragraph } from "@/components/ui/typography";
 import { address, converter, node } from "@/lib/symbol";
 import useSWR from "swr";
-import { Address } from "symbol-sdk";
+import { Address } from "symbol-sdk/dist/src/model/account/Address";
 
 const fetcher = (e: string) => fetch(e).then((res) => res.json());
 
