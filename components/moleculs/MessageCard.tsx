@@ -81,16 +81,6 @@ export default function MessageCard(): JSX.Element {
         })}
 
       <div ref={ref} />
-      {!isValidating && (
-        <div className="flex flex-col items-center gap-5">
-          <Loading />
-          <Paragraph className="text-center text-muted-foreground">
-            続きを読み込み中...
-            <br />
-            ノードからの照会に時間がかかる場合があります
-          </Paragraph>
-        </div>
-      )}
       <div className="my-10 text-muted-foreground text-center">{data?.flatMap((e) => e)?.length || 0} 件読込完了</div>
     </div>
   );
