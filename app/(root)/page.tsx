@@ -21,7 +21,7 @@ export default function IndexPage() {
     <div className="flex justify-center px-5 mb-48">
       <div className="flex flex-col justify-center gap-5 w-full max-w-5xl">
         <section className="flex flex-col items-center space-y-6 mt-[200px] mb-[100px]">
-          <H1>義援金受付状況</H1>
+          <H1>支援募金受付状況</H1>
           <Link
             href={`https://symbol.fyi/accounts/${address}`}
             target="_blank"
