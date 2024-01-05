@@ -33,6 +33,13 @@ export default function IndexPage() {
             {balance.toLocaleString("ja-JP")}
             <span className="text-xl md:text-4xl ml-1">xym</span>
           </H2>
+          <Link
+            href="https://nemtus.com/noto-support-donation2024/"
+            target="_blank"
+            className="max-w-max whitespace-normal text-center"
+          >
+            寄付する
+          </Link>
         </section>
         <section>
           <Paragraph className="text-muted-foreground text-center pb-5">
